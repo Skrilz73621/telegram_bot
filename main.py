@@ -1,16 +1,22 @@
 import asyncio
+from aiogram import Router, F, types
 
 from handlers.picture import picture_router
 from handlers.start import start_router
 from handlers.myinfo import myinfo_router
 from handlers.random import random_router
+from handlers.dialog import opros_router
+from handlers.review_dialog import rate_router
 from bot_config import dispatcher, bot
+
 
 async def main():
     dispatcher.include_router(start_router)
     dispatcher.include_router(picture_router)
     dispatcher.include_router(myinfo_router)
     dispatcher.include_router(random_router)
+    dispatcher.include_router(opros_router)
+    dispatcher.include_router(rate_router)
     # запустил бота
     await dispatcher.start_polling(bot)
 
