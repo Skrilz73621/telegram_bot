@@ -63,6 +63,9 @@ cover/
 *.log
 local_settings.py
 db.sqlite3
+*.sqlite3
+*.sqlite
+*.sqlitet3-journal
 db.sqlite3-journal
 
 # Flask stuff:
