@@ -3,6 +3,8 @@ from aiogram.filters import Command, StateFilter
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery
+from bot_config import database
+
 
 class RestourantReview(StatesGroup):
     name = State()
@@ -27,7 +29,7 @@ async def handle_name(message: types.Message, state: FSMContext):
     if not isinstance(name, str) or len(name) > 20:
         await message.answer('Пожалуйста, введите корректное имя (не более 20 символов).')
         return
-    await state.update_data(name=name)
+    await state.update_data(name = name)
     await message.answer('Напишите ваш номер телефона. Например: +996123456789')
     await state.set_state(RestourantReview.phone_number)
 
@@ -88,6 +90,7 @@ async def handle_extra_comments(message: types.Message, state: FSMContext):
     await state.update_data(extra_comments=extra_comments)
     await message.answer('Спасибо за ваш отзыв! Мы обязательно его учтем.')
     data = await state.get_data()
+    database.save_poll(data)
     await message.answer(f'{data["name"]}\n{data["phone_number"]}\n{data["food_rating"]}\n{data["cleanliness_rating"]}\n{data["extra_comments"]}')
     await state.clear()
 

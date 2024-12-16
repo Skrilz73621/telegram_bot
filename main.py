@@ -20,7 +20,7 @@ async def main():
     dispatcher.include_router(random_router)
     dispatcher.include_router(opros_router)
     dispatcher.include_router(rate_router)
-    # dispatcher.startup.register(on_startup)
+    dispatcher.startup.register(on_startup)
     # запустил бота
     await dispatcher.start_polling(bot)
 

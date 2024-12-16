@@ -10,8 +10,10 @@ class Database:
                 CREATE TABLE IF NOT EXISTS poll (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name TEXT,
-                    age INTEGER,
-                    genre GENRE
+                    phone_number INTEGER,
+                    food_rating INTEGER,
+                    cleanliness_rating INTEGER,
+                    extra_comments TEXT
                 )
             ''')
             conn.commit()
@@ -21,10 +23,10 @@ class Database:
         with sqlite3.connect(self.path) as conn:
             conn.execute(
                 """
-                    INSERT INTO poll (name, age, genre)
-                    VALUES(?, ?, ?)
+                    INSERT INTO poll (name, phone_number, food_rating, cleanliness_rating, extra_comments)
+                    VALUES(?, ?, ?, ?, ?)
                 """,
-                (data['name'], data['age'], data['genre'])
+                (data['name'], data['phone_number'], data['food_rating'], data['cleanliness_rating'], data['extra_comments'])
             )
         
         

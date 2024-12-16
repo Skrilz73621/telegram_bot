@@ -21,9 +21,3 @@ async def start_handler(message: types.Message):
     users = len(list_of_indexes)
     name = message.from_user.first_name
     await message.answer(f'Привет ,{name}, наш бот обслуживает уже {users} пользователя', reply_markup=kb)
-
-
-async def review_start(callback_query: types.CallbackQuery, state: FSMContext):
-    await callback_query.message.answer('Как вас зовут?')
-    await state.set_state('RestourantReview:name')
-    await callback_query.answer()
