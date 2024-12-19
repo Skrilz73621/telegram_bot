@@ -13,9 +13,19 @@ class Database:
                     phone_number INTEGER,
                     food_rating INTEGER,
                     cleanliness_rating INTEGER,
-                    extra_comments TEXT
+                    extra_comments TEXT,
+                    date DATE
                 )
             ''')
+            conn.execute('''
+                CREATE TABLE IF NOT EXISTS dish (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT,
+                    price FlOAT,
+                    description TEXT,
+                    category TEXT
+                )
+            ''')            
             conn.commit()
 
 
@@ -23,10 +33,18 @@ class Database:
         with sqlite3.connect(self.path) as conn:
             conn.execute(
                 """
-                    INSERT INTO poll (name, phone_number, food_rating, cleanliness_rating, extra_comments)
-                    VALUES(?, ?, ?, ?, ?)
+                    INSERT INTO poll (name, phone_number, food_rating, cleanliness_rating, extra_comments, date)
+                    VALUES(?, ?, ?, ?, ?, ?)
                 """,
-                (data['name'], data['phone_number'], data['food_rating'], data['cleanliness_rating'], data['extra_comments'])
+                (data['name'], data['phone_number'], data['food_rating'], data['cleanliness_rating'], data['extra_comments'], data['date'])
             )
         
-        
+    def save_dish(self, data:dict):
+        with sqlite3.connect(self.path) as conn:
+            conn.execute(
+                """
+                    INSERT INTO dish (name, price, description, category)
+                    VALUES(?, ?, ?, ?)
+                """,
+                (data['name'], data['price'], data['description'],data['category'])
+            )

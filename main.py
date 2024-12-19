@@ -6,6 +6,7 @@ from handlers.start import start_router
 from handlers.myinfo import myinfo_router
 from handlers.random import random_router
 from handlers.dialog import opros_router
+from handlers.admin import admin_router
 from handlers.review_dialog import rate_router
 from bot_config import dispatcher, bot, database
 
@@ -20,6 +21,7 @@ async def main():
     dispatcher.include_router(random_router)
     dispatcher.include_router(opros_router)
     dispatcher.include_router(rate_router)
+    dispatcher.include_router(admin_router)
     dispatcher.startup.register(on_startup)
     # запустил бота
     await dispatcher.start_polling(bot)

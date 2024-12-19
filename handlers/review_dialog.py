@@ -12,6 +12,7 @@ class RestourantReview(StatesGroup):
     food_rating = State()
     cleanliness_rating = State()
     extra_comments = State()
+    date = State()
 
 rate_router = Router()
 
@@ -88,9 +89,18 @@ async def handle_cleanliness_rating(callback_query: types.CallbackQuery, state: 
 async def handle_extra_comments(message: types.Message, state: FSMContext):
     extra_comments = message.text
     await state.update_data(extra_comments=extra_comments)
-    await message.answer('Спасибо за ваш отзыв! Мы обязательно его учтем.')
+    await message.answer('Введите пожалуйста дату сегодняшнего дня')
+    await state.set_state(RestourantReview.date)
+    
+    
+@rate_router.message(RestourantReview.date)
+async def handle_date(message:types.Message, state:FSMContext):
+    date = message.text.strip()    
+    await state.update_data(date=date)
     data = await state.get_data()
     database.save_poll(data)
-    await message.answer(f'{data["name"]}\n{data["phone_number"]}\n{data["food_rating"]}\n{data["cleanliness_rating"]}\n{data["extra_comments"]}')
+    await message.answer('Спасибо за ваш отзыв! Мы обязательно его учтем.')
+    await message.answer(f'{data["name"]}\n{data["phone_number"]}\n{data["food_rating"]}\n{data["cleanliness_rating"]}\n{data["extra_comments"]}\n{data["date"]}')
     await state.clear()
+
 
