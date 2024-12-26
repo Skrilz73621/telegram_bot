@@ -1,6 +1,6 @@
 from aiogram import Router, F, types
 from aiogram.filters import Command, StateFilter
-from aiogram.fsm.state import State, StatesGroup
+from aiogram.fsm.state import State, StatesGroup, default_state
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery
 from bot_config import database
@@ -17,7 +17,7 @@ class RestourantReview(StatesGroup):
 rate_router = Router()
 
 
-@rate_router.callback_query(F.data == 'review')
+@rate_router.callback_query(F.data == 'review', default_state)
 async def review_start(callback_query: CallbackQuery, state: FSMContext):
     await callback_query.message.answer('Как вас зовут?')
     await state.set_state(RestourantReview.name)

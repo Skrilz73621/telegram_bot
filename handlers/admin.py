@@ -1,8 +1,9 @@
 from aiogram import Router, F, types
 from aiogram.filters import Command, StateFilter
-from aiogram.fsm.state import State, StatesGroup
+from aiogram.fsm.state import State, StatesGroup, default_state
 from aiogram.fsm.context import FSMContext
 from bot_config import database
+from pprint import pprint
 
 admin_router = Router()
 admin_router.message.filter(F.from_user.id == 1002180589)
@@ -11,10 +12,11 @@ class Dish(StatesGroup):
     name = State()
     price = State()
     description = State()
+    picture = State()
     category = State()
     
 
-@admin_router.message(Command('dish'))
+@admin_router.message(Command('dish'), default_state)
 async def start_adding_dish(message: types.Message, state: FSMContext):
     await message.answer('Введите имя нового блюда')
     await state.set_state(Dish.name)
@@ -26,12 +28,24 @@ async def start_adding_price(message: types.Message, state:FSMContext):
     await message.answer('Введите цену нового блюда')
     await state.set_state(Dish.price)
     
+    
 @admin_router.message(Dish.price)
-async def start_adding_description(message:types.Message, state:FSMContext):
+async def start_adding_picture(message: types.Message, state:FSMContext):
     price = message.text
     await state.update_data(price=price)
+    await message.answer('Загрузите картинку блюда')
+    await state.set_state(Dish.picture)
+    
+    
+@admin_router.message(Dish.picture, F.photo)
+async def start_adding_description(message:types.Message, state:FSMContext):
+    picture = message.photo
+    biggest_picture = picture[-1] 
+    biggest_image_id  =biggest_picture.file_id
+    await state.update_data(picture=biggest_image_id)
     await message.answer('Введите описание нового блюда')
     await state.set_state(Dish.description)
+    
     
 @admin_router.message(Dish.description)
 async def start_adding_category(message:types.Message, state:FSMContext):

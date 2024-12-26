@@ -12,4 +12,6 @@ show_dishes_router = Router()
 async def show_all_dishes(message: types.Message):
     dishes = database.show_all_dishes()
     for dish in dishes:
-        await message.answer(f'Dish name: {dish["name"]}\nDish price: {dish["price"]}\nDish description: {dish["description"]}\nDish category: {dish["category"]}')
+        picture = dish['picture']
+        txt = f'Dish name: {dish["name"]}\nDish price: {dish["price"]}\nDish description: {dish["description"]}\nDish category: {dish["category"]}'
+        await message.answer_photo(photo=picture, caption=txt)

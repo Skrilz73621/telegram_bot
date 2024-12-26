@@ -23,6 +23,7 @@ class Database:
                     name TEXT,
                     price FlOAT,
                     description TEXT,
+                    picture TEXT,
                     category TEXT
                 )
             ''')            
@@ -43,10 +44,10 @@ class Database:
         with sqlite3.connect(self.path) as conn:
             conn.execute(
                 """
-                    INSERT INTO dish (name, price, description, category)
-                    VALUES(?, ?, ?, ?)
+                    INSERT INTO dish (name, price, description, picture, category)
+                    VALUES(?, ?, ?, ?, ?)
                 """,
-                (data['name'], data['price'], data['description'],data['category'])
+                (data['name'], data['price'], data['description'],data['picture'], data['category'])
             )
             
     def show_all_dishes(self):

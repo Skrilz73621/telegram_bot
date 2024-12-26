@@ -17,10 +17,10 @@ async def on_startup(bot):
 
 async def main():
     dispatcher.include_router(start_router)
+    dispatcher.include_router(opros_router)
     dispatcher.include_router(picture_router)
     dispatcher.include_router(myinfo_router)
     dispatcher.include_router(random_router)
-    dispatcher.include_router(opros_router)
     dispatcher.include_router(rate_router)
     dispatcher.include_router(admin_router)
     dispatcher.include_router(show_dishes_router)
